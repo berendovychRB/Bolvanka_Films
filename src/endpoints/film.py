@@ -1,4 +1,3 @@
-from bson import ObjectId
 from fastapi import APIRouter
 
 from domain.film import FilmRequest
