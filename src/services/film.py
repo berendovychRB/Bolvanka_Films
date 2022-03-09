@@ -4,30 +4,28 @@ from repositories.film import FilmRepository
 
 class FilmService:
 
-    @staticmethod
-    async def find():
-        return await FilmRepository.find()
+    def __init__(self):
+        self.film_repository = FilmRepository()
 
-    @staticmethod
-    async def get(id: str):
-        return await FilmRepository.get(id)
+    async def find(self):
+        return await self.film_repository.find()
 
-    @staticmethod
-    async def create(film: FilmRequest):
+    async def get(self, id: str):
+        return await self.film_repository.get(id)
+
+    async def create(self, film: FilmRequest):
         film = Film(name=film.name,
                     genre=film.genre,
                     mark=film.mark,
                     comments=film.comments)
-        return await FilmRepository.save(film)
+        return await self.film_repository.save(film)
 
-    @staticmethod
-    async def update(id: str, film: FilmRequest):
+    async def update(self, id: str, film: FilmRequest):
         film = Film(name=film.name,
                     genre=film.genre,
                     mark=film.mark,
                     comments=film.comments)
-        return await FilmRepository.update(id, film)
+        return await self.film_repository.update(id, film)
 
-    @staticmethod
-    async def delete(id: str):
-        await FilmRepository.delete(id)
+    async def delete(self, id: str):
+        await self.film_repository.delete(id)

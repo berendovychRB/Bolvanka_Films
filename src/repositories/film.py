@@ -2,42 +2,56 @@ from typing import List
 
 from bson import ObjectId
 
-from config.database import films_collection
-from serializers.film import films_serializer
+from config.database import db
 
 from domain.film import Film
 
 
+class FilmNotFoundError(Exception):
+    pass
+
+
 class FilmRepository:
 
-    @staticmethod
-    async def find() -> List[Film]:
-        films = films_serializer(films_collection.find())
+    def __init__(self):
+        self.db = db.extract
+
+    def _get_item_by_id(self, id):
+        film = self.db.find_one({"_id": ObjectId(id)})
+        if not film:
+            raise FilmNotFoundError()
+        film['id'] = str(film['_id'])
+        del(film['_id'])
+        return film
+
+    def _update(self, id, data):
+        query = {"_id": ObjectId(id)}
+        values = {"$set": data}
+        self.db.update_one(query, values)
+
+    async def find(self) -> List[Film]:
+        films = []
+        for film in self.db.find():
+            films.append(Film(**film))
         return films
 
-    @staticmethod
-    async def get(id: str) -> Film:
-        films = films_serializer(
-            films_collection.find({"_id": ObjectId(id)}))
-        return films[0]
+    async def get(self, id: str) -> Film:
+        return self._get_item_by_id(id)
 
-    @staticmethod
-    async def save(film: Film) -> Film:
-        _id = films_collection.insert_one(dict(film))
-        film = films_serializer(
-            films_collection.find({"_id": _id.inserted_id})
-        )
-        return film[0]
+    async def save(self, film: Film) -> Film:
+        self.db.insert_one(dict(film))
+        return film
 
-    @staticmethod
-    async def update(id: str, film: Film) -> Film:
-        films_collection.find_one_and_update({"_id": ObjectId(id)}, {
-            "$set": dict(film)
-        })
-        films = films_serializer(
-            films_collection.find({"_id": ObjectId(id)}))
-        return films[0]
+    async def update(self, id: str, film: Film) -> Film:
+        stored_data = self._get_item_by_id(id)
+        input_data = film.dict()
+        for key, value in input_data.items():
+            if input_data[key] != 0 and input_data[key] != "string":
+                stored_data[key] = value
+        del(stored_data["created_at"])
+        self._update(id, stored_data)
+        film = self._get_item_by_id(id)
+        return film
 
-    @staticmethod
-    async def delete(id: str) -> None:
-        films_collection.find_one_and_delete({"_id": ObjectId(id)})
+    async def delete(self, id: str) -> None:
+        self.db.find_one_and_delete({"_id": ObjectId(id)})

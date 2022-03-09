@@ -1,14 +1,23 @@
 import datetime
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, validator, Field
+from typing import Optional
+from bson import ObjectId
+from domain.validators import PyObjectId
 
 
 class Film(BaseModel):
+    id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     name: str
     genre: str = None
     mark: int
     comments: str = None
     created_at: datetime.datetime = None
     updated_at: datetime.datetime = None
+
+    class Config:
+        allow_population_by_field_name = True
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}
 
     @validator("created_at", pre=True, always=True)
     def set_created_to_now(cls, v):
@@ -24,5 +33,3 @@ class FilmRequest(BaseModel):
     genre: str = None
     mark: int
     comments: str = None
-
-# ГЛЯНУТИ В МЕДІАТУЛ ТАМ В АПЛІКЕЙШН Є СПОСІБ!!!!
