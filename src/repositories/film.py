@@ -14,15 +14,29 @@ class FilmNotFoundError(Exception):
 class FilmRepository:
 
     def __init__(self):
-        self.db = db.extract
+        self.db = db.films
 
     def _get_item_by_id(self, id):
         film = self.db.find_one({"_id": ObjectId(id)})
         if not film:
             raise FilmNotFoundError()
         film['id'] = str(film['_id'])
-        del(film['_id'])
+        del (film['_id'])
         return film
+
+    def _get_item_by_name(self, name: str):
+        film = self.db.find_one({"name": name})
+        if not film:
+            raise FilmNotFoundError()
+        film['id'] = str(film['_id'])
+        del (film['_id'])
+        return film
+
+    def check_existing_film(self, name: str):
+        film = self.db.find_one({"name": name})
+        if film:
+            return True
+        return False
 
     def _update(self, id, data):
         query = {"_id": ObjectId(id)}
@@ -38,17 +52,20 @@ class FilmRepository:
     async def get(self, id: str) -> Film:
         return self._get_item_by_id(id)
 
-    async def save(self, film: Film) -> Film:
-        self.db.insert_one(dict(film))
+    async def get_by_name(self, name: str) -> Film:
+        return self._get_item_by_name(name)
+
+    async def save(self, film: dict) -> Film:
+        self.db.insert_one(film)
+        film = Film(**film)
         return film
 
     async def update(self, id: str, film: Film) -> Film:
         stored_data = self._get_item_by_id(id)
         input_data = film.dict()
         for key, value in input_data.items():
-            if input_data[key] != 0 and input_data[key] != "string":
-                stored_data[key] = value
-        del(stored_data["created_at"])
+            stored_data[key] = value
+        del (stored_data["created_at"])
         self._update(id, stored_data)
         film = self._get_item_by_id(id)
         return film

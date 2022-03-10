@@ -1,6 +1,5 @@
 import datetime
 from pydantic import BaseModel, validator, Field
-from typing import Optional
 from bson import ObjectId
 from domain.validators import PyObjectId
 
@@ -9,7 +8,8 @@ class Film(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     name: str
     genre: str = None
-    mark: int
+    viewed: bool = False
+    mark: int = 0
     comments: str = None
     created_at: datetime.datetime = None
     updated_at: datetime.datetime = None
@@ -31,5 +31,6 @@ class Film(BaseModel):
 class FilmRequest(BaseModel):
     name: str
     genre: str = None
-    mark: int
+    viewed: bool = False
+    mark: int = 0
     comments: str = None
