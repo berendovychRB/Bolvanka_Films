@@ -20,14 +20,6 @@ class Film(BaseModel):
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
 
-    @validator("created_at", pre=True, always=True)
-    def set_created_to_now(cls, v):
-        return v or datetime.datetime.now()
-
-    @validator("updated_at", pre=True, always=True)
-    def set_updated_to_now(cls, v):
-        return v or datetime.datetime.now()
-
 
 class FilmRequest(BaseModel):
     name: str

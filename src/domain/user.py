@@ -21,10 +21,6 @@ class User(BaseModel):
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
 
-    @validator("created_at", pre=True, always=True)
-    def set_created_to_now(cls, v):
-        return v or datetime.datetime.now()
-
 
 class UserRequest(BaseModel):
     telegram_id: str

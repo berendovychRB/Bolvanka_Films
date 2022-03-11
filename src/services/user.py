@@ -7,6 +7,9 @@ class UserService:
     def __init__(self):
         self.user_repository = UserRepository()
 
+    async def find(self):
+        return await self.user_repository.find()
+
     async def get(self, id: str):
         return await self.user_repository.get(id)
 

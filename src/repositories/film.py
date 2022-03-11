@@ -1,3 +1,4 @@
+import datetime
 from typing import List
 
 from bson import ObjectId
@@ -70,6 +71,8 @@ class FilmRepository:
         return self._get_item_by_name(name)
 
     async def save(self, film: dict) -> Film:
+        film["created_at"] = datetime.datetime.now()
+        film["updated_at"] = datetime.datetime.now()
         self.db.insert_one(film)
         film = Film(**film)
         return film
@@ -77,9 +80,10 @@ class FilmRepository:
     async def update(self, id: str, film: Film) -> Film:
         stored_data = self._get_item_by_id(id)
         input_data = film.dict()
+        del input_data["created_at"]
         for key, value in input_data.items():
             stored_data[key] = value
-        del (stored_data["created_at"])
+        stored_data["updated_at"] = datetime.datetime.now()
         self._update(id, stored_data)
         film = self._get_item_by_id(id)
         return film

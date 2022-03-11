@@ -7,6 +7,11 @@ from repositories.user import UserNotFoundError
 user_router = APIRouter(prefix="/users", tags=["Users"])
 
 
+@user_router.get("/", summary="Retrieve a list of users")
+async def all_films(service: UserService = Depends()):
+    return await service.find()
+
+
 @user_router.get("/{id}", summary="Retrieve a user by id")
 async def get_user_by_id(id: str, service: UserService = Depends()):
     try:

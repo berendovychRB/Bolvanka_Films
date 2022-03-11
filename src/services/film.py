@@ -33,7 +33,8 @@ class FilmService:
         film = Film(name=film.name,
                     genre=film.genre,
                     mark=film.mark,
-                    comments=film.comments)
+                    comments=film.comments,
+                    user_id=film.user_id)
         return await self.film_repository.update(id, film)
 
     async def update_viewing(self, id: str):

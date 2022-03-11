@@ -1,3 +1,6 @@
+import datetime
+from typing import List
+
 from bson import ObjectId
 from config.database import db
 
@@ -29,10 +32,17 @@ class UserRepository:
         del (user['_id'])
         return user
 
+    async def find(self) -> List[User]:
+        users = []
+        for user in self.db.find():
+            users.append(User(**user))
+        return users
+
     async def get(self, id: str) -> User:
         return self._get_user_by_id(id)
 
     async def save(self, user: dict) -> User:
+        user["created_at"] = datetime.datetime.now()
         self.db.insert_one(user)
         user = User(**user)
         return user
