@@ -33,5 +33,8 @@ class FilmService:
                     comments=film.comments)
         return await self.film_repository.update(id, film)
 
+    async def update_viewing(self, id: str):
+        return await self.film_repository.update_viewing(id)
+
     async def delete(self, id: str):
         await self.film_repository.delete(id)

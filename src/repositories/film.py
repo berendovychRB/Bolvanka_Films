@@ -70,5 +70,12 @@ class FilmRepository:
         film = self._get_item_by_id(id)
         return film
 
+    async def update_viewing(self, id: str) -> Film:
+        stored_film = self._get_item_by_id(id)
+        stored_film["viewed"] = not stored_film["viewed"]
+        self._update(id, stored_film)
+        film = self._get_item_by_id(id)
+        return film
+
     async def delete(self, id: str) -> None:
         self.db.find_one_and_delete({"_id": ObjectId(id)})

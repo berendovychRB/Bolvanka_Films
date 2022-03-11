@@ -55,6 +55,11 @@ async def update_film(id: str,
     return await service.update(id, film)
 
 
+@film_router.put("/{id}")
+async def update_film_viewing(id: str, service: FilmService = Depends()):
+    return await service.update_viewing(id)
+
+
 @film_router.delete("/{id}")
 async def delete_film(id: str, service: FilmService = Depends()):
     await service.delete(id)
