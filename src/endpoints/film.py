@@ -4,7 +4,7 @@ from domain.film import FilmRequest
 from services.film import FilmService, FilmAlreadyExistsError
 from repositories.film import FilmNotFoundError
 
-film_router = APIRouter(prefix="/films")
+film_router = APIRouter(prefix="/films", tags=["Films"])
 
 
 @film_router.get("/", summary="Retrieve a list of films")
@@ -19,6 +19,11 @@ async def all_films(service: FilmService = Depends(),
     will return all viewed films
     """
     return await service.find(p=parameter, q=query)
+
+
+@film_router.get("/{user_id}", summary="Retrieve a list of films by user id")
+async def all_films(user_id: str, service: FilmService = Depends()):
+    return await service.find_all_by_user_id(user_id)
 
 
 @film_router.get("/{id}", summary="Retrieve a film by id")

@@ -14,6 +14,9 @@ class FilmService:
     async def find(self, p, q):
         return await self.film_repository.find(p, q)
 
+    async def find_all_by_user_id(self, user_id: str):
+        return await self.film_repository.find_all_by_user_id(user_id)
+
     async def get(self, id: str):
         return await self.film_repository.get(id)
 

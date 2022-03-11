@@ -57,6 +57,12 @@ class FilmRepository:
                 films.append(Film(**film))
         return films
 
+    async def find_all_by_user_id(self, user_id) -> List[Film]:
+        films = []
+        for film in self.db.find({"user_id": user_id}):
+            films.append(Film(**film))
+        return films
+
     async def get(self, id: str) -> Film:
         return self._get_item_by_id(id)
 
