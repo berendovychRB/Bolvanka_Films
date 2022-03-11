@@ -7,12 +7,21 @@ from repositories.film import FilmNotFoundError
 film_router = APIRouter(prefix="/films")
 
 
-@film_router.get("/")
-async def all_films(service: FilmService = Depends()):
-    return await service.find()
+@film_router.get("/", summary="Retrieve a list of films")
+async def all_films(service: FilmService = Depends(),
+                    parameter: str = None,
+                    query: str = None):
+    """
+    Retrieve a list of films.
+
+    Search is possible using the `parameter= & q=` parameters.
+    ex: `/films/?parameter=viewed&q=True`
+    will return all viewed films
+    """
+    return await service.find(p=parameter, q=query)
 
 
-@film_router.get("/{id}")
+@film_router.get("/{id}", summary="Retrieve a film by id")
 async def get_film_by_id(id: str, service: FilmService = Depends()):
     try:
         film = await service.get(id)
@@ -24,7 +33,7 @@ async def get_film_by_id(id: str, service: FilmService = Depends()):
     return film
 
 
-@film_router.get("/by_name/{name}")
+@film_router.get("/by_name/{name}", summary="Retrieve a film by name")
 async def get_film_by_name(name: str, service: FilmService = Depends()):
     try:
         film = await service.get_by_name(name)
@@ -36,7 +45,7 @@ async def get_film_by_name(name: str, service: FilmService = Depends()):
     return film
 
 
-@film_router.post("/")
+@film_router.post("/", summary="Save a film")
 async def create_film(film: FilmRequest, service: FilmService = Depends()):
     try:
         film = await service.create(film)
@@ -48,19 +57,19 @@ async def create_film(film: FilmRequest, service: FilmService = Depends()):
     return film
 
 
-@film_router.patch("/{id}")
+@film_router.patch("/{id}", summary="Update the film")
 async def update_film(id: str,
                       film: FilmRequest,
                       service: FilmService = Depends()):
     return await service.update(id, film)
 
 
-@film_router.put("/{id}")
+@film_router.put("/{id}", summary="Update film viewing")
 async def update_film_viewing(id: str, service: FilmService = Depends()):
     return await service.update_viewing(id)
 
 
-@film_router.delete("/{id}")
+@film_router.delete("/{id}", summary="Delete the film")
 async def delete_film(id: str, service: FilmService = Depends()):
     await service.delete(id)
     return {"status": "ok"}

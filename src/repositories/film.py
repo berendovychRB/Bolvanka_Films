@@ -43,10 +43,18 @@ class FilmRepository:
         values = {"$set": data}
         self.db.update_one(query, values)
 
-    async def find(self) -> List[Film]:
+    async def find(self, p, q) -> List[Film]:
         films = []
-        for film in self.db.find():
-            films.append(Film(**film))
+        if p and q:
+            if q == "True":
+                q = True
+            else:
+                q = False
+            for film in self.db.find({p: q}):
+                films.append(Film(**film))
+        else:
+            for film in self.db.find():
+                films.append(Film(**film))
         return films
 
     async def get(self, id: str) -> Film:

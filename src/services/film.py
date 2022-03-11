@@ -11,8 +11,8 @@ class FilmService:
     def __init__(self):
         self.film_repository = FilmRepository()
 
-    async def find(self):
-        return await self.film_repository.find()
+    async def find(self, p, q):
+        return await self.film_repository.find(p, q)
 
     async def get(self, id: str):
         return await self.film_repository.get(id)
