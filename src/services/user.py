@@ -2,6 +2,10 @@ from repositories.user import UserRepository
 from domain.user import UserRequest
 
 
+class UserAlreadyExistsError(Exception):
+    pass
+
+
 class UserService:
 
     def __init__(self):
@@ -14,8 +18,11 @@ class UserService:
         return await self.user_repository.get(id)
 
     async def create(self, user: UserRequest):
-        film_data = dict(user)
-        return await self.user_repository.save(film_data)
+        user_data = dict(user)
+        if self.user_repository.check_existing_user(
+                telegram_id=user_data["telegram_id"]):
+            raise UserAlreadyExistsError()
+        return await self.user_repository.save(user_data)
 
     async def delete(self, id: str):
         await self.user_repository.delete(id)

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 
 from domain.user import UserRequest
-from services.user import UserService
+from services.user import UserService, UserAlreadyExistsError
 from repositories.user import UserNotFoundError
 
 user_router = APIRouter(prefix="/users", tags=["Users"])
@@ -26,7 +26,13 @@ async def get_user_by_id(id: str, service: UserService = Depends()):
 
 @user_router.post("/", summary="Save a user")
 async def create_film(user: UserRequest, service: UserService = Depends()):
-    user = await service.create(user)
+    try:
+        user = await service.create(user)
+    except UserAlreadyExistsError:
+        raise HTTPException(
+            status_code=409,
+            detail="User already exists"
+        )
     return user
 
 

@@ -10,9 +10,9 @@ from domain.film import Film
 class User(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     telegram_id: str
-    username: str
-    first_name: str
-    last_name: str
+    username: str = None
+    first_name: str = None
+    last_name: str = None
     films: List[Film] = None
     created_at: datetime.datetime = None
 
@@ -24,7 +24,7 @@ class User(BaseModel):
 
 class UserRequest(BaseModel):
     telegram_id: str
-    username: str
-    first_name: str
-    last_name: str
+    username: str = None
+    first_name: str = None
+    last_name: str = None
     films: List[Film] = None

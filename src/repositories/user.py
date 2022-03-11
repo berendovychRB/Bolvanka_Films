@@ -14,7 +14,7 @@ class UserNotFoundError(Exception):
 class UserRepository:
 
     def __init__(self):
-        self.db = db.user
+        self.db = db.users
 
     def _get_user_by_id(self, id):
         user = self.db.find_one({"_id": ObjectId(id)})
@@ -31,6 +31,12 @@ class UserRepository:
         user['id'] = str(user['_id'])
         del (user['_id'])
         return user
+
+    def check_existing_user(self, telegram_id):
+        user = self.db.find_one({"telegram_id": telegram_id})
+        if user:
+            return True
+        return False
 
     async def find(self) -> List[User]:
         users = []
