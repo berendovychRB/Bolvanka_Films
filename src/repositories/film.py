@@ -58,10 +58,18 @@ class FilmRepository:
                 films.append(Film(**film))
         return films
 
-    async def find_all_by_user_id(self, user_id) -> List[Film]:
+    async def find_all_by_user_id(self, user_id, p, q) -> List[Film]:
         films = []
-        for film in self.db.find({"user_id": user_id}):
-            films.append(Film(**film))
+        if p and q:
+            if q == "True":
+                q = True
+            else:
+                q = False
+            for film in self.db.find({"user_id": user_id, p: q}):
+                films.append(Film(**film))
+        else:
+            for film in self.db.find({"user_id": user_id}):
+                films.append(Film(**film))
         return films
 
     async def get(self, id: str) -> Film:

@@ -14,7 +14,7 @@ async def all_films(service: FilmService = Depends(),
     """
     Retrieve a list of films.
 
-    Search is possible using the `parameter= & q=` parameters.
+    Search is possible using the `parameter= & query=` parameters.
     ex: `/films/?parameter=viewed&q=True`
     will return all viewed films
     """
@@ -22,8 +22,17 @@ async def all_films(service: FilmService = Depends(),
 
 
 @film_router.get("/{user_id}", summary="Retrieve a list of films by user id")
-async def all_films(user_id: str, service: FilmService = Depends()):
-    return await service.find_all_by_user_id(user_id)
+async def all_films(user_id: str, service: FilmService = Depends(),
+                    parameter: str = None,
+                    query: str = None):
+    """
+        Retrieve a list of user's films.
+
+        Search is possible using the `parameter= & query=` parameters.
+        ex: `/films/?parameter=viewed&q=True`
+        will return all viewed films
+        """
+    return await service.find_all_by_user_id(user_id, parameter, query)
 
 
 @film_router.get("/{id}", summary="Retrieve a film by id")
