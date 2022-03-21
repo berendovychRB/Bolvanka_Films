@@ -87,3 +87,11 @@ async def update_film_viewing(id: str, service: FilmService = Depends()):
 async def delete_film(id: str, service: FilmService = Depends()):
     await service.delete(id)
     return {"status": "ok"}
+
+
+@film_router.delete("/{user_id}/{name}", summary="Delete the film by for user")
+async def delete_film(user_id: str,
+                      name: str,
+                      service: FilmService = Depends()):
+    await service.delete_by_name_and_user_id(name=name, user_id=user_id)
+    return {"status": "ok"}

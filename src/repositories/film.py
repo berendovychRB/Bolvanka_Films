@@ -105,3 +105,9 @@ class FilmRepository:
 
     async def delete(self, id: str) -> None:
         self.db.find_one_and_delete({"_id": ObjectId(id)})
+
+    async def delete_by_name_and_user_id(self, name: str,
+                                         user_id: str) -> None:
+        self.db.find_one_and_delete({"name": name,
+                                     "user_id": user_id})
+

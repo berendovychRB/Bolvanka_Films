@@ -42,3 +42,7 @@ class FilmService:
 
     async def delete(self, id: str):
         await self.film_repository.delete(id)
+
+    async def delete_by_name_and_user_id(self, name: str,
+                                         user_id: str):
+        await self.film_repository.delete_by_name_and_user_id(name, user_id)
