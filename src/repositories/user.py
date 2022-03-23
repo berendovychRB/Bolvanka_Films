@@ -2,9 +2,9 @@ import datetime
 from typing import List
 
 from bson import ObjectId
-from config.database import db
+from src.config.database import db
 
-from domain.user import User
+from src.domain.user import User
 
 
 class UserNotFoundError(Exception):

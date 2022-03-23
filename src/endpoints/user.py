@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 
-from domain.user import UserRequest
-from services.user import UserService, UserAlreadyExistsError
-from repositories.user import UserNotFoundError
+from src.domain.user import UserRequest
+from src.services.user import UserService, UserAlreadyExistsError
+from src.repositories.user import UserNotFoundError
 
 user_router = APIRouter(prefix="/users", tags=["Users"])
 

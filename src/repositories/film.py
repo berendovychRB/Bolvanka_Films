@@ -3,9 +3,9 @@ from typing import List
 
 from bson import ObjectId
 
-from config.database import db
+from src.config.database import db
 
-from domain.film import Film
+from src.domain.film import Film
 
 
 class FilmNotFoundError(Exception):
