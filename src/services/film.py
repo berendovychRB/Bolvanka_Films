@@ -37,6 +37,9 @@ class FilmService:
                     user_id=film.user_id)
         return await self.film_repository.update(id, film)
 
+    async def update_by_name_and_user_id(self, name: str, user_id: str, mark: int):
+        return await self.film_repository.update_by_name_and_user_id(name, user_id, mark)
+
     async def update_viewing(self, id: str):
         return await self.film_repository.update_viewing(id)
 

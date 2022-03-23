@@ -96,6 +96,20 @@ class FilmRepository:
         film = self._get_item_by_id(id)
         return film
 
+    async def update_by_name_and_user_id(self, name: str, user_id: str, mark: int):
+        film = self.db.find_one({"name": name,
+                                 "user_id": user_id})
+        if not film:
+            raise FilmNotFoundError()
+        film['id'] = str(film['_id'])
+        del (film['_id'])
+        film["mark"] = mark
+        film["viewed"] = True
+        film["updated_at"] = datetime.datetime.now()
+        self._update(film["id"], film)
+        film = self._get_item_by_id(film["id"])
+        return film
+
     async def update_viewing(self, id: str) -> Film:
         stored_film = self._get_item_by_id(id)
         stored_film["viewed"] = not stored_film["viewed"]

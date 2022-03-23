@@ -78,6 +78,17 @@ async def update_film(id: str,
     return await service.update(id, film)
 
 
+@film_router.patch("/{user_id}/{name}/{mark}",
+                   summary="Update the film by name and user id")
+async def update_film_by_name_and_user_id(user_id: str,
+                                          name: str,
+                                          mark: int,
+                                          service: FilmService = Depends()):
+    return await service.update_by_name_and_user_id(name=name,
+                                                    user_id=user_id,
+                                                    mark=mark)
+
+
 @film_router.put("/{id}", summary="Update film viewing")
 async def update_film_viewing(id: str, service: FilmService = Depends()):
     return await service.update_viewing(id)
