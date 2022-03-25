@@ -2,8 +2,8 @@ import datetime
 from typing import List
 
 from bson import ObjectId
-from src.config.database import db
 
+from src.config.database import db
 from src.domain.user import User
 
 
@@ -12,7 +12,6 @@ class UserNotFoundError(Exception):
 
 
 class UserRepository:
-
     def __init__(self):
         self.db = db.users
 
@@ -20,16 +19,16 @@ class UserRepository:
         user = self.db.find_one({"_id": ObjectId(id)})
         if not user:
             raise UserNotFoundError()
-        user['id'] = str(user['_id'])
-        del (user['_id'])
+        user["id"] = str(user["_id"])
+        del user["_id"]
         return user
 
     def _get_user_by_username(self, username: str):
         user = self.db.find_one({"username": username})
         if not user:
             raise UserNotFoundError()
-        user['id'] = str(user['_id'])
-        del (user['_id'])
+        user["id"] = str(user["_id"])
+        del user["_id"]
         return user
 
     def check_existing_user(self, telegram_id):

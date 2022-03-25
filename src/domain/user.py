@@ -1,10 +1,11 @@
 import datetime
 from typing import List
 
-from pydantic import BaseModel, validator, Field
 from bson import ObjectId
-from src.domain.validators import PyObjectId
+from pydantic import BaseModel, Field
+
 from src.domain.film import Film
+from src.domain.validators import PyObjectId
 
 
 class User(BaseModel):

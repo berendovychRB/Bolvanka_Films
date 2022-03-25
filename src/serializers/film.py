@@ -1,4 +1,3 @@
-
 def film_serializer(film) -> dict:
     return {
         "id": str(film["_id"]),

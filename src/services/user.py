@@ -1,5 +1,5 @@
-from src.repositories.user import UserRepository
 from src.domain.user import UserRequest
+from src.repositories.user import UserRepository
 
 
 class UserAlreadyExistsError(Exception):
@@ -7,7 +7,6 @@ class UserAlreadyExistsError(Exception):
 
 
 class UserService:
-
     def __init__(self):
         self.user_repository = UserRepository()
 
@@ -20,7 +19,8 @@ class UserService:
     async def create(self, user: UserRequest):
         user_data = dict(user)
         if self.user_repository.check_existing_user(
-                telegram_id=user_data["telegram_id"]):
+            telegram_id=user_data["telegram_id"]
+        ):
             raise UserAlreadyExistsError()
         return await self.user_repository.save(user_data)
 

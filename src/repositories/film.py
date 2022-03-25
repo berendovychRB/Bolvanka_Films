@@ -4,7 +4,6 @@ from typing import List
 from bson import ObjectId
 
 from src.config.database import db
-
 from src.domain.film import Film
 
 
@@ -13,7 +12,6 @@ class FilmNotFoundError(Exception):
 
 
 class FilmRepository:
-
     def __init__(self):
         self.db = db.films
 
@@ -21,16 +19,16 @@ class FilmRepository:
         film = self.db.find_one({"_id": ObjectId(id)})
         if not film:
             raise FilmNotFoundError()
-        film['id'] = str(film['_id'])
-        del (film['_id'])
+        film["id"] = str(film["_id"])
+        del film["_id"]
         return film
 
     def _get_item_by_name(self, name: str):
         film = self.db.find_one({"name": name})
         if not film:
             raise FilmNotFoundError()
-        film['id'] = str(film['_id'])
-        del (film['_id'])
+        film["id"] = str(film["_id"])
+        del film["_id"]
         return film
 
     def check_existing_film(self, name: str):
@@ -96,13 +94,14 @@ class FilmRepository:
         film = self._get_item_by_id(id)
         return film
 
-    async def update_by_name_and_user_id(self, name: str, user_id: str, mark: int):
-        film = self.db.find_one({"name": name,
-                                 "user_id": user_id})
+    async def update_by_name_and_user_id(
+        self, name: str, user_id: str, mark: int
+    ):
+        film = self.db.find_one({"name": name, "user_id": user_id})
         if not film:
             raise FilmNotFoundError()
-        film['id'] = str(film['_id'])
-        del (film['_id'])
+        film["id"] = str(film["_id"])
+        del film["_id"]
         film["mark"] = mark
         film["viewed"] = True
         film["updated_at"] = datetime.datetime.now()
@@ -120,8 +119,7 @@ class FilmRepository:
     async def delete(self, id: str) -> None:
         self.db.find_one_and_delete({"_id": ObjectId(id)})
 
-    async def delete_by_name_and_user_id(self, name: str,
-                                         user_id: str) -> None:
-        self.db.find_one_and_delete({"name": name,
-                                     "user_id": user_id})
-
+    async def delete_by_name_and_user_id(
+        self, name: str, user_id: str
+    ) -> None:
+        self.db.find_one_and_delete({"name": name, "user_id": user_id})

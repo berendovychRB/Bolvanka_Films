@@ -7,7 +7,6 @@ class FilmAlreadyExistsError(Exception):
 
 
 class FilmService:
-
     def __init__(self):
         self.film_repository = FilmRepository()
 
@@ -30,15 +29,21 @@ class FilmService:
         return await self.film_repository.save(film_data)
 
     async def update(self, id: str, film: FilmRequest):
-        film = Film(name=film.name,
-                    genre=film.genre,
-                    mark=film.mark,
-                    comments=film.comments,
-                    user_id=film.user_id)
+        film = Film(
+            name=film.name,
+            genre=film.genre,
+            mark=film.mark,
+            comments=film.comments,
+            user_id=film.user_id,
+        )
         return await self.film_repository.update(id, film)
 
-    async def update_by_name_and_user_id(self, name: str, user_id: str, mark: int):
-        return await self.film_repository.update_by_name_and_user_id(name, user_id, mark)
+    async def update_by_name_and_user_id(
+        self, name: str, user_id: str, mark: int
+    ):
+        return await self.film_repository.update_by_name_and_user_id(
+            name, user_id, mark
+        )
 
     async def update_viewing(self, id: str):
         return await self.film_repository.update_viewing(id)
@@ -46,6 +51,5 @@ class FilmService:
     async def delete(self, id: str):
         await self.film_repository.delete(id)
 
-    async def delete_by_name_and_user_id(self, name: str,
-                                         user_id: str):
+    async def delete_by_name_and_user_id(self, name: str, user_id: str):
         await self.film_repository.delete_by_name_and_user_id(name, user_id)

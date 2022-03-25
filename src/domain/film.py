@@ -1,6 +1,8 @@
 import datetime
-from pydantic import BaseModel, validator, Field
+
 from bson import ObjectId
+from pydantic import BaseModel, Field
+
 from src.domain.validators import PyObjectId
 
 
