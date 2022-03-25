@@ -24,7 +24,9 @@ class FilmService:
 
     async def create(self, film: FilmRequest):
         film_data = dict(film)
-        if self.film_repository.check_existing_film(name=film_data["name"]):
+        if self.film_repository.check_existing_film(
+            name=film_data["name"], user_id=film_data["user_id"]
+        ):
             raise FilmAlreadyExistsError()
         return await self.film_repository.save(film_data)
 

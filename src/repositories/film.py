@@ -31,8 +31,8 @@ class FilmRepository:
         del film["_id"]
         return film
 
-    def check_existing_film(self, name: str):
-        film = self.db.find_one({"name": name})
+    def check_existing_film(self, name: str, user_id: str):
+        film = self.db.find_one({"name": name, "user_id": user_id})
         if film:
             return True
         return False
