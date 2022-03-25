@@ -24,6 +24,10 @@ uvloop = "^0.16.0"
 watchgod = "^0.8.1"
 websockets = "^10.2"
 starlette = "0.17.1"
+pre-commit = "^2.17.0"
+black = "^22.1.0"
+flake8 = "^4.0.1"
+isort = "^5.10.1"
 
 [tool.poetry.dev-dependencies]
 

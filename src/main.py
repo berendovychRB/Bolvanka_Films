@@ -1,7 +1,7 @@
 from fastapi import FastAPI
+
 from src.endpoints.film import film_router
 from src.endpoints.user import user_router
-
 
 app = FastAPI()
 
