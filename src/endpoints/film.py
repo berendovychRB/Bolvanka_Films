@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 
-from domain.film import FilmRequest
-from services.film import FilmService, FilmAlreadyExistsError
-from repositories.film import FilmNotFoundError
+from src.domain.film import FilmRequest
+from src.services.film import FilmService, FilmAlreadyExistsError
+from src.repositories.film import FilmNotFoundError
 
 film_router = APIRouter(prefix="/films", tags=["Films"])
 

@@ -3,8 +3,8 @@ from typing import List
 
 from pydantic import BaseModel, validator, Field
 from bson import ObjectId
-from domain.validators import PyObjectId
-from domain.film import Film
+from src.domain.validators import PyObjectId
+from src.domain.film import Film
 
 
 class User(BaseModel):

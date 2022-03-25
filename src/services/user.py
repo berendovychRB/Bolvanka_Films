@@ -1,5 +1,5 @@
-from repositories.user import UserRepository
-from domain.user import UserRequest
+from src.repositories.user import UserRepository
+from src.domain.user import UserRequest
 
 
 class UserAlreadyExistsError(Exception):

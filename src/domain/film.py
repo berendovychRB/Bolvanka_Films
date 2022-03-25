@@ -1,7 +1,7 @@
 import datetime
 from pydantic import BaseModel, validator, Field
 from bson import ObjectId
-from domain.validators import PyObjectId
+from src.domain.validators import PyObjectId
 
 
 class Film(BaseModel):

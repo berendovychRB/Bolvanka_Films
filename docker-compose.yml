@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    container_name: "bolvanka-api"
+    command: uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
+    restart: always
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/src
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo
+    container_name: "mongo-db"
+    volumes:
+      - mongo_data:/var/lib/mongodb/data/
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=test
+      - MONGO_INITDB_ROOT_PASSWORD=test
+    ports:
+      - "27014:27014"
+
+volumes:
+  mongo_data:

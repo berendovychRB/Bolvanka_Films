@@ -1,5 +1,5 @@
-from domain.film import Film, FilmRequest
-from repositories.film import FilmRepository
+from src.domain.film import Film, FilmRequest
+from src.repositories.film import FilmRepository
 
 
 class FilmAlreadyExistsError(Exception):
