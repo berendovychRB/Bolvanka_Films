@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "bolvanka_fastapi"
+version = "0.1.0"
+description = ""
+authors = ["Ruslan Berendovych <ruslan.berendovych@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+anyio = "^3.5.0"
+asgiref = "^3.5.0"
+click = "^8.0.4"
+fastapi = "^0.75.0"
+h11 = "^0.13.0"
+httptools = "^0.4.0"
+idna = "^3.3"
+pydantic = "^1.9.0"
+pymongo = "^4.0.2"
+python-dotenv = "^0.20.0"
+PyYAML = "^6.0"
+sniffio = "^1.2.0"
+typing-extensions = "^4.1.1"
+uvicorn = "^0.17.6"
+uvloop = "^0.16.0"
+watchgod = "^0.8.1"
+websockets = "^10.2"
+starlette = "0.17.1"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
